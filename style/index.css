@@ -80,6 +80,12 @@ body {
 }
 
 /* TEXT FORMATTING */
+.top-bar-formating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .text-formating {
     display: flex;
     flex-direction: column;
@@ -100,6 +106,36 @@ section {
     border-radius: 8px;
     overflow-y: visible; /* biar scroll kalau konten kebanyakan */
 }
+
+#add-tab-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.4em 1.1em;
+  font-size: 0.65em;
+  font-weight: 500;
+
+  border: none;
+  border-radius: 0.5em;
+
+  background-color: #2d2d2d;
+  color: #fff;
+
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+#add-tab-button:hover {
+  background-color: #3a3a3a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+#add-tab-button:active {
+  transform: scale(0.96);
+  background-color: #1f1f1f;
+}
+
 
 /* TAB STYLE */
 input[type="radio"] {
@@ -155,6 +191,7 @@ input[type="radio"]:checked + label {
 
 }
 
+
 /* TEXTAREA */
 textarea {
     width: 100%;
@@ -201,4 +238,39 @@ textarea:focus {
     background-color: #2c2c2c;
     flex: 1;
     border-radius: 8px;
+}
+
+/* DOWNLOAD BUTTON */
+.download-button {
+  width: 1.4em;
+  height: 1.4em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: none;
+  border-radius: 0.25em;
+
+  cursor: pointer;
+  padding: 0; /* biar gak nambah ukuran */
+  color: #333; /* warna icon */
+  transition: background 0.2s, transform 0.15s;
+}
+
+.download-button:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.download-button:active {
+  transform: scale(0.9);
+}
+
+.download{
+    width: auto; 
+    height: auto;
+    vertical-align: 
+    middle;
+    fill: #fff;
+    overflow: hidden;
 }
