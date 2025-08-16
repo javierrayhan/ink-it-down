@@ -80,10 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const editorDivId = `editor${e.target.id.replace('tab','')}`;
                 const editorInstance = editors.find(ed => ed.getDomNode().id === editorDivId);
                 if (editorInstance) {
-                    editorInstance.layout(); // fix jedag-jedug
+                    editorInstance.layout(); 
                 }
             }
         });
 
     });
 });
+
