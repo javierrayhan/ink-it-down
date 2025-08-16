@@ -94,11 +94,11 @@ body {
 }
 
 section {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 118px);
     background-color: #2a2a2a;
     padding: 15px;
     border-radius: 8px;
-    overflow-y: visible; /* biar scroll kalau konten kebanyakan */
+    overflow-y: auto; /* biar scroll kalau konten kebanyakan */
 }
 
 /* TAB STYLE */
@@ -107,32 +107,15 @@ input[type="radio"] {
 }
 
 label {
-    padding: 6px 14px; 
-    background-color: #2d2d2d;
-    /* border-top-left-radius: 6px;
-    border-top-right-radius: 6px; */
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    padding: 8px 12px;
+    /* margin-right: 5px; */
+    background-color: #3a3a3a;
+    border-radius: 6px 6px 0 0;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #c5c5c5;
-    transition: all 0.2s ease;
-}
-
-label:hover {
-    background-color: #3c3c3c;
-}
-
-/* Active tab */
-input[type="radio"]:checked + label {
-    background-color: #1e1e1e; /* sama dengan background section */
-    color: #fff;
-    box-shadow: 0 -2px 0 0 #03dac6; /* shadow tipis di bawah */
 }
 
 input[type="radio"]:checked + label {
-    background-color: #3c3c3c;
+    background-color: #5a5a5a;
 }
 
 /* TAB CONTENT */
@@ -142,7 +125,7 @@ input[type="radio"]:checked + label {
     background-color: #2c2c2c;
     border-radius: 0 6px 6px 6px;
     margin-top: -1px;
-    height: 97%;
+    height: 100%;
     box-sizing: border-box;
 }
 
@@ -152,7 +135,6 @@ input[type="radio"]:checked + label {
     display: block;
     display: flex;
     flex-direction: column;
-
 }
 
 /* TEXTAREA */
