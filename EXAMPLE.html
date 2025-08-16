@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style/index.css"> <!-- Updated path -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs/loader.js"></script>
+  
+    <link rel="stylesheet" href="example.css"> <!-- Updated path -->
     <title>INK IT DOWN!</title>
 </head>
 <body>
@@ -36,30 +40,26 @@
                 </button>
             </div>
 
-            <section id="tabs-container">
-                
-                <input type="radio" name="tabs" id="tab1" checked>
-                <label for="tab1">Tab 1</label>
-                
-                <input type="radio" name="tabs" id="tab2">
-                <label for="tab2">Tab 2</label>
+        <div class="tab-container">
+            <input type="radio" id="tab1" name="mytabs" checked="checked">
+            <label for="tab1">TAB 1</label>
+            <div class="tab">
+                <div class="editor" id="editor1"></div>
+            </div>
+<!-- 
+            <input type="radio" id="tab2" name="mytabs">
+            <label for="tab2">TAB 2</label>
+            <div class="tab">
+                <div class="editor" id="editor2"></div>
+            </div>
 
-                <input type="radio" name="tabs" id="tab3">
-                <label for="tab3">Tab 3</label>
+            <input type="radio" id="tab3" name="mytabs">
+            <label for="tab3">TAB 3</label>
+            <div class="tab">
+                <div class="editor" id="editor3"></div>
+            </div> -->
 
-                <div class="tab-content" id="content1">
-                    <textarea id="code-tab1" placeholder="Type or click Section button..."></textarea>
-                </div>
-
-                <div class="tab-content" id="content2">
-                    <textarea id="code-tab2" placeholder="Type or click Section button..."></textarea>
-                </div>
-
-                <div class="tab-content" id="content3">
-                    <textarea id="code-tab3" placeholder="Type or click Section button..."></textarea>
-                </div>
-
-            </section>
+        </div>
 
         
         </div>  
@@ -76,12 +76,14 @@
             </div>
 
             <div class="preview-box"> 
-                
+                <div class="" id="md-content">
+
+                </div>
             </div>
             
         </div>
     </div>
 
 </body>
-<script src="/script/index.js"></script>
+<script src="example.js"></script>
 </html>
