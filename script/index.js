@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteTabButton = document.getElementById("del-tab-button");
     deleteTabButton.addEventListener("click", deleteActiveTab);
 
+    
+    const downloadButton = document.getElementById("download-button");
+    downloadButton.addEventListener("click", downloadActiveTab);
+
     require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' }});
     require(['vs/editor/editor.main'], function() {
 
@@ -24,6 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // --- Add new tab ---
         addTabButton.addEventListener("click", () => {
+
+            const emptyMsg = tabContainer.querySelector(".empty-message");
+            if (emptyMsg) emptyMsg.remove();
+
             const tabCount = Object.keys(editors).length + 1;
             const tabId = `tab${tabCount}`;
 
@@ -105,17 +113,81 @@ document.addEventListener("DOMContentLoaded", () => {
         if (div) div.remove();
 
         // fallback: activated tab 1 if exists
-        const firstRadio = tabContainer.querySelector("input[name='mytabs']");
-        if (firstRadio) {
-            firstRadio.checked = true;
-            const editorInstance = editors[firstRadio.id];
-            if (editorInstance) {
-                preview.innerHTML = editorInstance.getValue() ? window.markdownit().render(editorInstance.getValue()) : '';
+        const remainingRadios = tabContainer.querySelectorAll("input[name='mytabs']");
+        if (remainingRadios.length > 0) {
+            // Index search
+            const radiosArray = Array.from(remainingRadios);
+            let prevRadio = null;
+
+            for (let i = 0; i < radiosArray.length; i++) {
+                if (radiosArray[i].id > tabId) {
+                    prevRadio = radiosArray[i - 1] || radiosArray[0];
+                    break;
+                }
             }
+
+            if (!prevRadio) prevRadio = radiosArray[radiosArray.length - 1];
+
+            prevRadio.checked = true;
+            const editorInstance = editors[prevRadio.id];
+            if (editorInstance) {
+                preview.innerHTML = editorInstance.getValue()
+                    ? window.markdownit().render(editorInstance.getValue())
+                    : '';
+            } else {
+                preview.innerHTML = "";
+            }
+
+            // Delete message
+            const emptyMsg = tabContainer.querySelector(".empty-message");
+            if (emptyMsg) emptyMsg.remove();
+
         } else {
-            preview.innerHTML = ""; // If there is no active tab
+            // If there is no container
+            preview.innerHTML = "";
+            if (!tabContainer.querySelector(".empty-message")) {
+                const msg = document.createElement("p");
+                msg.className = "empty-message";
+                msg.style.color = "gray";
+                msg.style.fontStyle = "italic";
+                msg.style.padding = "8px";
+                msg.textContent = "Click New Tab button to add a new tab";
+                tabContainer.appendChild(msg);
+            }
         }
+
     }
+
+    // --- Download active tab content ---
+    function downloadActiveTab() {
+        const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
+        if (!activeRadio) return;
+
+        const tabId = activeRadio.id;
+        const editorInstance = editors[tabId];
+        if (!editorInstance) return;
+
+        const content = editorInstance.getValue();
+
+        // ✅ Minta user isi nama file
+        let filename = prompt("Enter filename:", `${tabId}.md`);
+        if (!filename) return; // kalau cancel
+
+        if (!filename.endsWith(".md")) {
+            filename += ".md"; // biar extension tetap .md
+        }
+
+        const blob = new Blob([content], { type: "text/markdown" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.click();
+
+        URL.revokeObjectURL(url);
+    }
+
 });
 
 
