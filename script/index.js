@@ -2,12 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabContainer = document.querySelector(".tab-container");
     const addTabButton = document.getElementById("add-tab-button");
     const preview = document.getElementById('md-content');
-    const editors = {}; // mapping tabId => editor instance
+    const editors = {}; 
+
+    const deleteTabButton = document.getElementById("del-tab-button");
+    deleteTabButton.addEventListener("click", deleteActiveTab);
 
     require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' }});
     require(['vs/editor/editor.main'], function() {
 
-        // --- Init editor pertama ---
         const editor1 = monaco.editor.create(document.getElementById('editor1'), {
             value: '',
             language: 'markdown',
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tabContainer.appendChild(label);
             tabContainer.appendChild(div);
 
-            // init editor baru
+            // new editor init
             const editor = monaco.editor.create(editorDiv, {
                 value: '',
                 language: 'markdown',
@@ -67,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             input.checked = true;
             editor.layout();
-            preview.innerHTML = ''; // kosongin preview awal tab baru
+            preview.innerHTML = ''; 
         });
 
         // --- Switch tab ---
@@ -81,4 +83,39 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // --- Delete active tab ---
+    function deleteActiveTab() {
+        const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
+        if (!activeRadio) return; // Innactive tab
+
+        const tabId = activeRadio.id;       // ex: tab2
+        const label = tabContainer.querySelector(`label[for='${tabId}']`);
+        const div = tabContainer.querySelector(`#${tabId} ~ .tab`); // atake div after input
+
+        // destroy monaco editor instance 
+        if (editors[tabId]) {
+            editors[tabId].dispose();
+            delete editors[tabId];
+        }
+
+        // remove elements
+        activeRadio.remove();
+        if (label) label.remove();
+        if (div) div.remove();
+
+        // fallback: activated tab 1 if exists
+        const firstRadio = tabContainer.querySelector("input[name='mytabs']");
+        if (firstRadio) {
+            firstRadio.checked = true;
+            const editorInstance = editors[firstRadio.id];
+            if (editorInstance) {
+                preview.innerHTML = editorInstance.getValue() ? window.markdownit().render(editorInstance.getValue()) : '';
+            }
+        } else {
+            preview.innerHTML = ""; // If there is no active tab
+        }
+    }
 });
+
+

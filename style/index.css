@@ -111,7 +111,7 @@ body {
     text-decoration: none;
 }
 
-#add-tab-button {
+.button-container button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -130,12 +130,12 @@ body {
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
-#add-tab-button:hover {
+.button-container button:hover {
   background-color: #3a3a3a;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-#add-tab-button:active {
+.button-container button:active {
   transform: scale(0.96);
   background-color: #1f1f1f;
 }
