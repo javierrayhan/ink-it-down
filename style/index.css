@@ -58,6 +58,18 @@ body {
     width: 200px;
 }
 
+.section-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+    max-height: 82vh; 
+    overflow-y: auto; /* scroll kalau konten lebih tinggi */
+    /* flex: 1; */
+}
+
+
+
 .section .maintext {
     font-weight: bold;
     margin-bottom: 10px;
@@ -72,6 +84,7 @@ body {
     border-radius: 6px;
     color: #fff;
     cursor: pointer;
+    margin-right: 4%;
     transition: background 0.2s;
 }
 
