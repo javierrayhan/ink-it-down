@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section9: "\n**Bold text** and *italic text*\n", // Text formatting
         section10: "\n---\nHorizontal rule\n", // Horizontal rule
         section11: "\n[Link](https://example.com)\n", // Hyperlink
-        section12: "\n![Image](path/to/image.png)\n", // Image
+        section12: "\n![Image](https://picsum.photos/seed/picsum/200/300)\n", // Image
         section13: "\n`Inline code example`\n", // Inline code
         section14: "\n| Column 1 | Column 2 |\n|----------|----------|\n| Row 1    | Data A   |\n| Row 2    | Data B   |\n", // Simple table
         section15: "\n~~Strikethrough text~~\n", // Strikethrough
