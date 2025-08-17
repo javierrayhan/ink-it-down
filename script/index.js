@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabContainer = document.querySelector(".tab-container");
     const addTabButton = document.getElementById("add-tab-button");
     const preview = document.getElementById('md-content');
-    const editors = []; // nyimpen semua instance editor
+    const editors = {}; // mapping tabId => editor instance
 
     require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' }});
     require(['vs/editor/editor.main'], function() {
@@ -14,34 +14,31 @@ document.addEventListener("DOMContentLoaded", () => {
             theme: 'vs-dark',
             automaticLayout: true
         });
-        editors.push(editor1);
+        editors['tab1'] = editor1;
 
-        // live preview untuk editor pertama
         editor1.onDidChangeModelContent(() => {
-            const md = editor1.getValue();
-            preview.innerHTML = md ? window.markdownit().render(md) : '';
+            preview.innerHTML = editor1.getValue() ? window.markdownit().render(editor1.getValue()) : '';
         });
 
-        // --- Event untuk tambah tab baru ---
+        // --- Add new tab ---
         addTabButton.addEventListener("click", () => {
-            let tabCount = tabContainer.querySelectorAll("input[type='radio']").length + 1;
+            const tabCount = Object.keys(editors).length + 1;
+            const tabId = `tab${tabCount}`;
 
-            // bikin radio
+            // radio & label
             const input = document.createElement("input");
             input.type = "radio";
             input.name = "mytabs";
-            input.id = `tab${tabCount}`;
+            input.id = tabId;
 
-            // bikin label
             const label = document.createElement("label");
-            label.setAttribute("for", input.id);
+            label.setAttribute("for", tabId);
             label.textContent = `TAB ${tabCount}`;
 
-            // bikin content
+            // tab content
             const div = document.createElement("div");
             div.classList.add("tab");
 
-            // editor container
             const editorDiv = document.createElement("div");
             editorDiv.classList.add("editor");
             editorDiv.id = `editor${tabCount}`;
@@ -49,42 +46,39 @@ document.addEventListener("DOMContentLoaded", () => {
             editorDiv.style.height = "calc(100vh - 175px)";
             div.appendChild(editorDiv);
 
-            // append ke DOM
             tabContainer.appendChild(input);
             tabContainer.appendChild(label);
             tabContainer.appendChild(div);
 
-            // init Monaco tapi taruh di editor yang visible aja
+            // init editor baru
             const editor = monaco.editor.create(editorDiv, {
                 value: '',
                 language: 'markdown',
                 theme: 'vs-dark',
                 automaticLayout: true
             });
-            editors.push(editor);
+            editors[tabId] = editor;
 
-            // live preview
             editor.onDidChangeModelContent(() => {
-                const md = editor.getValue();
-                preview.innerHTML = md ? window.markdownit().render(md) : '';
+                if (input.checked) {
+                    preview.innerHTML = editor.getValue() ? window.markdownit().render(editor.getValue()) : '';
+                }
             });
 
-            // otomatis pilih tab baru
             input.checked = true;
             editor.layout();
+            preview.innerHTML = ''; // kosongin preview awal tab baru
         });
 
-        // --- Event untuk switch tab ---
+        // --- Switch tab ---
         tabContainer.addEventListener("change", (e) => {
             if (e.target.type === "radio") {
-                const editorDivId = `editor${e.target.id.replace('tab','')}`;
-                const editorInstance = editors.find(ed => ed.getDomNode().id === editorDivId);
+                const editorInstance = editors[e.target.id];
                 if (editorInstance) {
-                    editorInstance.layout(); 
+                    editorInstance.layout();
+                    preview.innerHTML = editorInstance.getValue() ? window.markdownit().render(editorInstance.getValue()) : '';
                 }
             }
         });
-
     });
 });
-
