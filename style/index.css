@@ -67,8 +67,6 @@ body {
     overflow-y: auto;
 }
 
-
-
 .section .maintext {
     font-weight: bold;
     /* margin-bottom: 10px; */
@@ -82,9 +80,12 @@ body {
     padding: 8px 12px;
     border-radius: 6px;
     color: #fff;
+    font-weight: 400;
     cursor: pointer;
     margin-right: 4%;
     transition: background 0.2s;
+
+    text-align: left;
 }
 
 .section-button:hover {
