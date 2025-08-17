@@ -1,4 +1,27 @@
-/* index.css */
+/* === Chrome, Edge, Safari === */
+::-webkit-scrollbar {
+  width: 10px;              /* lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;      /* background track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;         /* warna scroll handle */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;         /* hover efek */
+}
+
+/* === Firefox === */
+* {
+  scrollbar-width: thin;             /* "auto" | "thin" */
+  scrollbar-color: #555 #1e1e1e;     /* thumb | track */
+}
 
 /* RESET BASIC */
 * {
@@ -169,7 +192,7 @@ body {
 }
 
 /* DOWNLOAD BUTTON */
-.download-button {
+.download-button, .copy-button {
   width: 1.4em;
   height: 1.4em;
   display: inline-flex;
@@ -186,20 +209,37 @@ body {
   transition: background 0.2s, transform 0.15s;
 }
 
-.download-button:hover {
+.download-button, .copy-button:hover {
   background: rgba(0,0,0,0.1);
 }
 
-.download-button:active {
+.download-button, .copy-button:active {
   transform: scale(0.9);
+}
+
+.preview-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  align-items: center;            
+  gap: 8px;                      
+  width: auto;                  
+  box-sizing: border-box;        
 }
 
 .download{
     width: auto; 
     height: auto;
-    vertical-align: 
-    middle;
+    vertical-align: middle;
     fill: #fff;
+    overflow: hidden;
+}
+
+.copy{
+    width: auto; 
+    height: auto;
+    vertical-align: middle;
+    fill: transparent;
     overflow: hidden;
 }
 
@@ -303,3 +343,38 @@ label:hover {
     color: #000;
     overflow-y: visible;
 }
+
+/* TOAST ALERT */
+.toast {
+    visibility: hidden;
+    min-width: 180px; 
+    max-width: 300px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 12px 20px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 0.95rem;
+}
+
+/* Show Toast */
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0); 
+}
+
+/* Optional: Different Types of Toasts */
+.toast.success { background-color: #28a745; }
+.toast.error   { background-color: #dc3545; }
+.toast.info    { background-color: #17a2b8; }
+.toast.warning { background-color: #ffc107; color: #000; }

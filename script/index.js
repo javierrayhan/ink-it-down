@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         section17: "\n- **Details:**\n  - Extra info line 1\n  - Extra info line 2\n" // Details
     };
 
-
     const tabContainer = document.querySelector(".tab-container");
     const addTabButton = document.getElementById("add-tab-button");
     const preview = document.getElementById('md-content');
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const deleteTabButton = document.getElementById("del-tab-button");
     deleteTabButton.addEventListener("click", deleteActiveTab);
-
     
     const downloadButton = document.getElementById("download-button");
     downloadButton.addEventListener("click", downloadActiveTab);
@@ -232,8 +230,41 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // --- Copy active tab content ---
+    function copyActiveTabContent() {
+        const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
+        if (!activeRadio) {
+            alert("No active tab selected!");
+            return;
+        }
 
-    // binding tombol ke snippet
+        const tabId = activeRadio.id;
+        const editorInstance = editors[tabId];
+        if (!editorInstance) {
+            alert("No editor instance found for this tab!");
+            return;
+        }
+
+        const content = editorInstance.getValue();
+
+        navigator.clipboard.writeText(content).then(() => {
+            showToast("Copied!");
+        }).catch(() => {
+            showToast("Failed to copy!");
+        });
+
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2000); // Dissapear afater 2 seconds
+    }
+
+    // Snippet Binding
     document.getElementById("section-button1")
         .addEventListener("click", () => insertToActiveTab("section1"));
 
@@ -284,6 +315,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("section-button17")
         .addEventListener("click", () => insertToActiveTab("section17"));
+
+    // COPY BUTTON
+    document.getElementById("copy-button")
+        .addEventListener("click", copyActiveTabContent);
 });
 
 
