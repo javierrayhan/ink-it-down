@@ -188,12 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const content = editorInstance.getValue();
 
-        // ✅ Minta user isi nama file
         let filename = prompt("Enter filename:", `${tabId}.md`);
-        if (!filename) return; // kalau cancel
+        if (!filename) return;
 
         if (!filename.endsWith(".md")) {
-            filename += ".md"; // biar extension tetap .md
+            filename += ".md"; 
         }
 
         const blob = new Blob([content], { type: "text/markdown" });
@@ -205,6 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
         a.click();
 
         URL.revokeObjectURL(url);
+
+        showToast(`${filename} downloaded successfully!`);
     }
 
     // fungsi buat insert text ke tab aktif
