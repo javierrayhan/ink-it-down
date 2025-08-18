@@ -180,8 +180,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Download active tab content ---
     function downloadActiveTab() {
         const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
-        if (!activeRadio) return;
-
+        if (!activeRadio) {
+            showToast("No active tab selected!");
+            return;
+        }
         const tabId = activeRadio.id;
         const editorInstance = editors[tabId];
         if (!editorInstance) return;
@@ -212,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function insertToActiveTab(snippetKey) {
         const activeRadio = document.querySelector("input[name='mytabs']:checked");
         if (!activeRadio) {
-            alert("No active tab selected!");
+            showToast("No active tab selected!");
             return;
         }
 
@@ -235,7 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function copyActiveTabContent() {
         const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
         if (!activeRadio) {
-            alert("No active tab selected!");
+            // alert("No active tab selected!");
+            showToast("No active tab selected!");
             return;
         }
 
