@@ -1,4 +1,4 @@
-
+let userToken = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     const snippets = {
@@ -124,7 +124,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.getElementById("popup-confirm").addEventListener("click", () => {
+        const input = document.querySelector(".api-input").value.trim();
+        if (input) {
+            userToken = input;
+            showToast("API key saved!");
+        } else {
+            userToken = null;
+            showToast("No API key entered, will use default API.");
+        }
+    });
+
+    // RUN AI
     runAiBtn.addEventListener("click", async () => {
+        showToast("Sending prompt to AI...");
+
         const prompt = promptBox.value.trim();
         if (!prompt) {
             showToast("Prompt cannot be empty!");
@@ -137,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast("No active tab selected!");
             return;
         }
+
         const tabId = activeRadio.id;
         const editorInstance = editors[tabId];
 
@@ -144,14 +159,29 @@ document.addEventListener("DOMContentLoaded", () => {
             return showToast(`Editor not found for tab: ${tabId}`);
         }
 
+        try {      
+            let response;
 
-        try {
-            // Fetch ke API
-            const response = await fetch("http://127.0.0.1:5000/api/generate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt })
-            });
+            if (userToken) {
+                // Kalau ada API key → pakai API custom
+                response = await fetch("http://127.0.0.1:5000/api/generate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt,
+                        api_token: userToken
+                    })
+                });
+                console.log("Sending request from custom API...");
+            } else {
+                // Kalau nggak ada API key → fallback ke backend lokal
+                response = await fetch("http://127.0.0.1:5000/api/generate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt })
+                });
+                console.log("Sending request from local API...");
+            }
 
             if (!response.ok) {
                 throw new Error("API request failed");
@@ -175,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast("Error fetching AI response!");
         }
     });
+
 
     // === POPUP FUNCTION ===
     function openPopup() {
@@ -336,13 +367,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // === SHOW TOAST ===
-    function showToast(message) {
-        const toast = document.getElementById("toast");
+    function showToast(message, duration = 3000) {
         toast.textContent = message;
+
+        // reset class
+        toast.classList.remove("hide");
+        toast.style.visibility = "visible";
+
+        // trigger show
         toast.classList.add("show");
+
         setTimeout(() => {
+            // mulai hide animation
             toast.classList.remove("show");
-        }, 2000); // Dissapear afater 2 seconds
+            toast.classList.add("hide");
+
+            // tunggu transisi selesai sebelum hide sepenuhnya
+            toast.addEventListener("transitionend", function handler() {
+                if (toast.classList.contains("hide")) {
+                    toast.style.visibility = "hidden";
+                }
+                toast.removeEventListener("transitionend", handler);
+            });
+        }, duration);
     }
 
     // SECTION SNIPPET BINDING 
