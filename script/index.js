@@ -21,6 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
         section17: "\n- **Details:**\n  - Extra info line 1\n  - Extra info line 2\n" // Details
     };
 
+    // AI Functionality
+    const runAiBtn = document.getElementById("run-ai");
+    const promptBox = document.getElementById("ai-prompt-box");
+
     // === POPUP FUNCTION ===
     const overlay = document.getElementById("popupOverlay");
     const openBtn = document.getElementById("custom-api");
@@ -118,6 +122,58 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
+    });
+
+    runAiBtn.addEventListener("click", async () => {
+        const prompt = promptBox.value.trim();
+        if (!prompt) {
+            showToast("Prompt cannot be empty!");
+            return;
+        }
+
+        // Cari tab aktif
+        const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
+        if (!activeRadio) {
+            showToast("No active tab selected!");
+            return;
+        }
+        const tabId = activeRadio.id;
+        const editorInstance = editors[tabId];
+
+        if (!editorInstance) {
+            return showToast(`Editor not found for tab: ${tabId}`);
+        }
+
+
+        try {
+            // Fetch ke API
+            const response = await fetch("http://127.0.0.1:5000/api/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt })
+            });
+
+            if (!response.ok) {
+                throw new Error("API request failed");
+            }
+
+            const data = await response.json();
+            const aiResponse = data.result || "⚠️ No response from AI";
+            console.log("Raw data from API:", data);
+            // Tulis ke Monaco Editor aktif
+            editorInstance.executeEdits("ai-insert", [
+                {
+                    range: editorInstance.getSelection(),
+                    text: `\n${aiResponse}\n`,
+                    forceMoveMarkers: true
+                }
+            ]);
+
+            showToast("AI response inserted!");
+        } catch (err) {
+            console.error(err);
+            showToast("Error fetching AI response!");
+        }
     });
 
     // === POPUP FUNCTION ===
