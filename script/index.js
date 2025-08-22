@@ -128,10 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const input = document.querySelector(".api-input").value.trim();
         if (input) {
             userToken = input;
+            closePopup();
             showToast("API key saved!");
         } else {
             userToken = null;
-            showToast("No API key entered, will use default API.");
+            closePopup();
+            showToast("No API key entered, will use default API.");       
         }
     });
 
