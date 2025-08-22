@@ -62,7 +62,6 @@ def generate():
         print("Final output:", output_text)
 
         return jsonify({"result": output_text})
-    
 
     except Exception as e:
         print("Exception occurred:", str(e))
