@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const snippets = {
         section1: "\n# Section 1\nDefault content...\n", // H1 heading
@@ -19,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
         section17: "\n- **Details:**\n  - Extra info line 1\n  - Extra info line 2\n" // Details
     };
 
+    // === POPUP FUNCTION ===
+    const overlay = document.getElementById("popupOverlay");
+    const openBtn = document.getElementById("custom-api");
+    const cancelBtn = document.getElementById("popup-cancel");
+
+    // === TAB FUNCTIONALITY ===
     const tabContainer = document.querySelector(".tab-container");
     const addTabButton = document.getElementById("add-tab-button");
     const preview = document.getElementById('md-content');
@@ -30,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const downloadButton = document.getElementById("download-button");
     downloadButton.addEventListener("click", downloadActiveTab);
 
+    // === MONACO EDITOR ===
     require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' }});
     require(['vs/editor/editor.main'], function() {
 
@@ -99,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
             preview.innerHTML = ''; 
         });
 
-        // --- Switch tab ---
+        // === SWITCH TAB ===
         tabContainer.addEventListener("change", (e) => {
             if (e.target.type === "radio") {
                 const editorInstance = editors[e.target.id];
@@ -111,7 +120,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- Delete active tab ---
+    // === POPUP FUNCTION ===
+    function openPopup() {
+        overlay.classList.add("active");
+    }
+
+    function closePopup(e) {
+        if (!e || e.target === overlay || e.target.classList.contains("cancel")) {
+            overlay.classList.remove("active");
+        }
+    }
+
+    // === DELETE ACTIVE TAB ===
     function deleteActiveTab() {
         const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
         if (!activeRadio) return; // Innactive tab
@@ -177,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    // --- Download active tab content ---
+    // === DOWNLOAD ACTIVE TAB CONTENT ===
     function downloadActiveTab() {
         const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
         if (!activeRadio) {
@@ -210,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast(`${filename} downloaded successfully!`);
     }
 
-    // fungsi buat insert text ke tab aktif
+    // === INSERT SNIPPET TO ACTIVE TAB ===
     function insertToActiveTab(snippetKey) {
         const activeRadio = document.querySelector("input[name='mytabs']:checked");
         if (!activeRadio) {
@@ -233,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- Copy active tab content ---
+    // === Copy active tab content ===
     function copyActiveTabContent() {
         const activeRadio = tabContainer.querySelector("input[name='mytabs']:checked");
         if (!activeRadio) {
@@ -259,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    // === SHOW TOAST ===
     function showToast(message) {
         const toast = document.getElementById("toast");
         toast.textContent = message;
@@ -268,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 2000); // Dissapear afater 2 seconds
     }
 
-    // Snippet Binding
+    // SECTION SNIPPET BINDING 
     document.getElementById("section-button1")
         .addEventListener("click", () => insertToActiveTab("section1"));
 
@@ -323,6 +344,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // COPY BUTTON
     document.getElementById("copy-button")
         .addEventListener("click", copyActiveTabContent);
+
+    // POPUP EVENT BINDING
+    if (openBtn) openBtn.addEventListener("click", openPopup);
+    if (cancelBtn) cancelBtn.addEventListener("click", closePopup);
+    if (overlay) overlay.addEventListener("click", closePopup);
+
+    // ESC key close
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            overlay.classList.remove("active");
+        }
+    });
 });
+
 
 
