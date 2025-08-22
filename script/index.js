@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             editorDiv.classList.add("editor");
             editorDiv.id = `editor${tabCount}`;
             editorDiv.style.width = "100%";
-            editorDiv.style.height = "calc(100vh - 175px)";
+            editorDiv.style.height = "calc(100vh - 310px)";
             div.appendChild(editorDiv);
 
             tabContainer.appendChild(input);

@@ -27,7 +27,11 @@
                 placeholder="Enter your API key..." 
                 class="api-input"
             />
-            <p>Simple tutorial here! blablabla</p>
+            <p>You can get IBM Granite API at:
+            <a href="https://replicate.com/account/api-tokens" target="_blank">
+                replicate.com/account/api-tokens
+            </a>
+            </p>
             <div class="popup-buttons">
                 <button class="cancel" id="popup-cancel">CANCEL</button>
                 <button class="confirm" id="popup-confirm">CONFIRM</button>
@@ -42,7 +46,7 @@
 
         <div class="topbar-button-container">
 
-            <button class="ai-api" id="custom-api" >CUSTOM API</button>
+            <!-- <button class="ai-api" id="custom-api" >CUSTOM API</button> -->
             <button class="about">ABOUT</button>
         
         </div>
@@ -121,6 +125,18 @@
 
             </div>
 
+            <div class="ai-prompt">
+                <div class="top-bar-ai-prompt">
+                    <p>AI Auto Editor</p>
+
+                    <div class="ai-prompt-buttons">
+                        <button class="ai-prompt-button" id="custom-api">CUSTOM API</button>
+                        <button class="ai-prompt-button" id="run-ai">RUN</button>
+                    </div>
+                </div>
+           
+                <textarea class="ai-prompt-box"></textarea>
+            </div>
         
         </div>  
 
