@@ -8,7 +8,7 @@ import traceback
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # enable CORS untuk semua origin
+CORS(app)  
 
 CUSTOM_PROMPT_SUFFIX = os.getenv("CUSTOM_PROMPT_SUFFIX", "")
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
@@ -28,45 +28,6 @@ def extract_text(event):
         return "".join(extract_text(e) for e in event)
     return ""
 
-
-# @app.route("/api/generate", methods=["POST"])
-# def generate():
-#     try:
-#         data = request.json
-#         print("\n=== New Request ===")
-#         print("Headers:", dict(request.headers))
-#         print("JSON:", data)
-
-#         if not data or "prompt" not in data:
-#             return jsonify({"error": "No 'prompt' in request"}), 400
-
-#         user_prompt = data.get("prompt", "")
-#         final_prompt = user_prompt + "\n" + CUSTOM_PROMPT_SUFFIX
-#         print("Final prompt:", final_prompt)
-
-#         # streaming output dari Replicate
-#         output_text = ""
-#         for event in replicate.stream(
-#             "ibm-granite/granite-3.3-8b-instruct",
-#             input={"prompt": final_prompt}
-#         ):
-#             print("Event received:", event)
-#             # Ambil data dari ServerSentEvent
-#             if hasattr(event, "data") and event.data.strip():
-#                 output_text += event.data + " "
-
-#         output_text = output_text.strip()
-#         if output_text.endswith("{}"):
-#             output_text = output_text[:-2].strip()
-
-#         print("Final output:", output_text)
-
-#         return jsonify({"result": output_text})
-
-#     except Exception as e:
-#         print("Exception occurred:", str(e))
-#         traceback.print_exc()
-#         return jsonify({"error": str(e)}), 500
 @app.route("/api/generate", methods=["POST"])
 def generate():
     try:
@@ -78,25 +39,23 @@ def generate():
         if not data or "prompt" not in data:
             return jsonify({"error": "No 'prompt' in request"}), 400
 
-        # ambil API token dari user (prioritas), kalau ga ada pake default
         user_api_token = data.get("api_token") or request.headers.get("X-API-Token")
         api_token = user_api_token if user_api_token else REPLICATE_API_TOKEN
 
         if not api_token:
             return jsonify({"error": "No API token provided"}), 401
 
-        replicate.Client(api_token=api_token)  # set client pakai token ini
+        replicate.Client(api_token=api_token) 
 
         user_prompt = data.get("prompt", "")
         final_prompt = user_prompt + "\n" + CUSTOM_PROMPT_SUFFIX
         print("Final prompt:", final_prompt)
 
-        # streaming output dari Replicate
         output_text = ""
         for event in replicate.stream(
             "ibm-granite/granite-3.3-8b-instruct",
             input={"prompt": final_prompt},
-            api_token=api_token  # kasih token disini
+            api_token=api_token 
         ):
             print("Event received:", event)
             if hasattr(event, "data") and event.data.strip():
