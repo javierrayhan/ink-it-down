@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section17: "\n- **Details:**\n  - Extra info line 1\n  - Extra info line 2\n" // Details
     };
 
-    // AI Functionality
+    // === RUN AI ===
     const runAiBtn = document.getElementById("run-ai");
     const promptBox = document.getElementById("ai-prompt-box");
 
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // RUN AI
+    // === RUN AI ===
     runAiBtn.addEventListener("click", async () => {
         showToast("Sending prompt to AI...");
 
