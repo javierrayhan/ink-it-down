@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (userToken) {
                 // Kalau ada API key → pakai API custom
-                response = await fetch("https://ink-it-down-main-4b07d08.kuberns.cloud/api/generate", {
+                response = await fetch("http://localhost:3000/api/generate", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -177,13 +177,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Sending request from custom API...");
             } else {
                 // Kalau nggak ada API key → fallback ke backend lokal
-                response = await fetch("https://ink-it-down-main-4b07d08.kuberns.cloud/api/generate", {
+                response = await fetch("http://localhost:3000/api/generate", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ prompt })
                 });
                 console.log("Sending request from local API...");
             }
+
+            console.log("Response status:", response.status);
+            console.log("Response text:", await response.text());
 
             if (!response.ok) {
                 throw new Error("API request failed");
