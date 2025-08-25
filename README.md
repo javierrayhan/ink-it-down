@@ -1,6 +1,4 @@
-## Images:
-
-![youtube.com/watch?v=jxzb...](https://images.openai.com/thumbnails/url/oggm6Xicu1mSUVJSUGylr5-al1xUWVCSmqJbkpRnoJdeXJJYkpmsl5yfq5-Zm5ieWmxfaAuUsXL0S7F0Tw7JzY2KdDbwLDHMLfQwNTTJMEkLKyopjQrItPD3KY70jMwKsfQ2qcxwcsnN0U0OKTfx8QpPLnVJ9iosd1QrBgARtSm-)
+![inkitdown-logo](template/assets/logo.svg)
 
 # Project Documentation: Ink It Down
 
@@ -35,7 +33,14 @@ To enable seamless communication between the frontend and backend, Cross-Origin 
 ```python
 from flask_cors import CORS
 
-CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"]}})
+CORS(app, 
+     resources={r"/api/*": {
+         "origins": "*",
+         "methods": ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+         "allow_headers": ["Content-Type", "Authorization", "X-API-Token"],
+         "expose_headers": ["Content-Type"]
+     }}, 
+     supports_credentials=True)
 ```
 
 This configuration allows all origins to access the API endpoints, facilitating development and testing across different environments.
