@@ -52,7 +52,7 @@ This configuration allows all origins to access the API endpoints, facilitating 
 
 * **Frontend**: Hosted on Vercel, link: [Vercel Backend Deploy](https://ink-it-downbackendflask.vercel.app/)
 * **Backend**: Also deployed on Vercel, ensuring both services are on the same platform for optimal performance. Link: [InkItDown](https://inkitdown.javierrayhan.my.id)
-* 
+  
 ---
 
-For more details, visit the [GitHub Repository](https://github.com/javierrayhan/ink-it-down).
+For more details, visit the [Figma Slide](https://www.figma.com/deck/eHtazBkBecMZiXuZTdYwof/INK-IT-DOWN?node-id=6-165&t=QODVLF5UgiGEzis9-1)
