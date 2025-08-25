@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (userToken) {
                 // Kalau ada API key → pakai API custom
-                response = await fetch("http://127.0.0.1:5000/api/generate", {
+                response = await fetch("https://ink-it-downbackendflask.vercel.app/api/generate", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Sending request from custom API...");
             } else {
                 // Kalau nggak ada API key → fallback ke backend lokal
-                response = await fetch("http://127.0.0.1:5000/api/generate", {
+                response = await fetch("https://ink-it-downbackendflask.vercel.app/api/generate", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ prompt })
