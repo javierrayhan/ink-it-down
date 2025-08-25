@@ -57,4 +57,4 @@ This configuration allows all origins to access the API endpoints, facilitating 
 
 For more details, visit:
 [Figma Slide](https://www.figma.com/deck/eHtazBkBecMZiXuZTdYwof/INK-IT-DOWN?node-id=6-165&t=QODVLF5UgiGEzis9-1)
-[PDF Online](https://jumpshare.com/folder/k6OF8ssQGrKZ8APy2bKF)
+ or [PDF Online](https://jumpshare.com/folder/k6OF8ssQGrKZ8APy2bKF)
